@@ -1,9 +1,3 @@
-// Stellar-based ContentChain Smart Contract
-// This would be implemented as a Stellar Smart Contract (SOROBAN)
-
-// Note: This is a conceptual representation of what a Stellar smart contract would look like
-// Actual Stellar contracts use Rust with Soroban framework
-
 use soroban_sdk::{contract, contractimpl, Address, Env, Symbol, Vec, Map};
 
 // Contract structure for Stellar blockchain
@@ -20,34 +14,36 @@ pub struct ContentChainStellar {
 }
 
 // Content structure for Stellar
+#[derive(Clone)]
 pub struct Content {
-    id: u64,
-    creator: Address,
-    ipfs_hash: Symbol,
-    base_price: u64,  // Price in stroops (1 stroop = 0.0000001 XLM)
-    total_tips: u64,
-    subscription_revenue: u64,
-    is_active: bool,
-    created_at: u64,
+    pub id: u64,
+    pub creator: Address,
+    pub ipfs_hash: Symbol,
+    pub base_price: u64,  // Price in stroops (1 stroop = 0.0000001 XLM)
+    pub total_tips: u64,
+    pub subscription_revenue: u64,
+    pub is_active: bool,
+    pub created_at: u64,
 }
 
 // Subscription structure for Stellar
+#[derive(Clone)]
 pub struct Subscription {
-    content_id: u64,
-    subscriber: Address,
-    tier_index: u8,
-    start_date: u64,
-    last_payment: u64,
-    is_active: bool,
-    monthly_rate: u64,
+    pub content_id: u64,
+    pub subscriber: Address,
+    pub tier_index: u8,
+    pub start_date: u64,
+    pub last_payment: u64,
+    pub is_active: bool,
+    pub monthly_rate: u64,
 }
 
 // Subscription tiers for Stellar
 pub struct SubscriptionTier {
-    name: Symbol,
-    monthly_rate: u64,  // in stroops
-    benefits: Vec<Symbol>,
-    is_active: bool,
+    pub name: Symbol,
+    pub monthly_rate: u64,  // in stroops
+    pub benefits: Vec<Symbol>,
+    pub is_active: bool,
 }
 
 #[contractimpl]
@@ -252,16 +248,7 @@ impl ContentChainStellar {
 
     // Process payment on Stellar (simplified)
     fn process_payment(env: Env, recipient: &Address, amount: u64) -> Result<(), Symbol> {
-        // In a real implementation, this would:
-        // 1. Verify payment from sender
-        // 2. Transfer XLM to recipient
-        // 3. Handle payment processing fees
-        // For now, we'll just simulate the payment processing
-        
-        // Check if sender has sufficient balance (simplified)
-        // In reality, this would involve Stellar's payment system
-        
-        // Record the payment
+        // Record the payment event
         env.events().publish(
             (Symbol::new(&env, "payment"), recipient.clone()),
             amount,
